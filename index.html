@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0E0B16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Les Extraits">
+<style>
+  :root{
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  body{ margin:0; font: 14px system-ui, -apple-system, sans-serif; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+<title>Discovering Les Extraits</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap">
+
+<style>
+/* Layout: one column, phone-first — the advisor holds the device and reads aloud. Large tap targets, one moment per screen, gesture prompts between steps. White, marine ink, gold. Light-only by design. */
+:root{
+  --bg:#0E0B16;          /* the Extraits ground */
+  --paper:#171222;
+  --paper-2:#211A2F;
+  --ink:#F3F0EB;
+  --ink-dim:#C2B8C2;
+  --muted:#8C8192;
+  --gold:#C3A9B4;        /* Crécy mauve */
+  --gold-light:#DACBD1;
+  --line:rgba(243,240,235,.17);
+  --line-soft:rgba(243,240,235,.09);
+  --font-display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --font-body:"Jost","Helvetica Neue",Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-weight:300;font-size:16px;line-height:1.55;
+  margin:0;-webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:600px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 56px;
+}
+.eyebrow{
+  font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);font-weight:500;margin:0;
+}
+
+header{padding-block:26px 18px;border-bottom:1px solid var(--line)}
+header h1{
+  font-family:var(--font-body);font-weight:300;
+  font-size:1.35rem;margin:9px 0 0;line-height:1.15;
+  text-transform:uppercase;letter-spacing:.2em;color:var(--ink);
+}
+header h1 em{
+  display:block;font-family:var(--font-display);font-style:italic;
+  text-transform:none;letter-spacing:0;font-size:1.6rem;
+  color:var(--gold);margin-top:2px;
+}
+.steps{display:flex;gap:6px;margin-top:16px}
+.dot{flex:1;height:2px;background:var(--line-soft)}
+.dot.on{background:var(--gold)}
+.dot.done{background:var(--ink-dim)}
+
+/* single opening visual — Château de Marly, collection level */
+.hero{position:relative;margin-top:22px;overflow:hidden}
+.hero img{display:block;width:100%;height:188px;object-fit:cover;object-position:50% 58%}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,11,22,.15) 0%,rgba(14,11,22,.55) 62%,var(--bg) 100%);
+}
+.hero figcaption{
+  position:absolute;left:14px;bottom:12px;z-index:1;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+}
+
+.panel{padding-block:26px}
+.qlabel{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.panel h2{
+  font-family:var(--font-display);font-weight:500;
+  font-size:1.85rem;margin:9px 0 0;line-height:1.14;text-wrap:balance;
+}
+.panel .hint{color:var(--ink-dim);font-size:.9rem;margin:9px 0 0}
+
+/* say-this block */
+.say{
+  border-left:2px solid var(--gold);padding:2px 0 2px 15px;margin-top:20px;
+}
+.say .t{font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.say p{
+  font-family:var(--font-display);font-size:1.18rem;line-height:1.42;
+  color:var(--ink);margin:7px 0 0;
+}
+.say p + p{margin-top:9px}
+.say .aside{
+  font-family:var(--font-body);font-size:.86rem;line-height:1.5;
+  color:var(--ink-dim);font-style:normal;margin-top:12px;
+}
+.say .aside b{color:var(--gold);font-weight:500}
+
+/* gesture cue */
+.cue{
+  background:var(--paper-2);color:var(--ink);padding:16px 17px;margin-top:20px;
+  border-left:2px solid var(--gold);
+}
+.cue .t{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.cue p{margin:7px 0 0;font-size:.93rem;line-height:1.5;color:var(--ink)}
+.cue.cue--soft{background:var(--paper);border-left-color:var(--line)}
+.cue.cue--soft .t{color:var(--muted)}
+.cue.cue--soft p{color:var(--ink-dim)}
+.cue ul{margin:9px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.cue li{font-size:.92rem;line-height:1.45;color:var(--ink);padding-left:1rem;position:relative}
+.cue.cue--soft li{color:var(--ink-dim)}
+.cue li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;background:var(--gold)}
+
+/* options */
+.opts{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.opt{
+  display:block;width:100%;text-align:left;cursor:pointer;
+  background:var(--bg);border:1px solid var(--line);
+  padding:15px 16px;min-height:52px;font-family:inherit;
+  color:var(--ink);font-size:1rem;font-weight:300;line-height:1.4;
+  transition:border-color .12s,background .12s;
+}
+.opt:hover{border-color:var(--gold)}
+.opt:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.opt[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#140F1E}
+.opt .mark{color:#140F1E;font-size:.8rem;margin-right:.5rem;opacity:0}
+.opt[aria-pressed="true"] .mark{opacity:1}
+
+.group{margin-top:26px}
+.group h3{
+  font-family:var(--font-display);font-size:1.2rem;font-weight:500;
+  margin:0 0 3px;line-height:1.25;color:var(--ink);
+}
+.group .ask{font-size:.78rem;color:var(--muted);letter-spacing:.04em;margin:0}
+
+/* intro */
+.intro-block{margin-top:22px;padding-top:16px;border-top:1px solid var(--line-soft)}
+.intro-block h3{font-family:var(--font-display);font-size:1.25rem;font-weight:500;margin:0}
+.intro-block p{margin:6px 0 0;font-size:.95rem;line-height:1.55;color:var(--ink-dim)}
+
+/* composition summary + advisor note */
+.summary{
+  margin:12px 0 0;font-family:var(--font-display);font-size:1.25rem;
+  color:var(--gold);letter-spacing:.02em;
+}
+.note{
+  margin:12px 0 0;font-size:.8rem;line-height:1.5;color:var(--muted);
+  padding-top:10px;border-top:1px dotted var(--line);
+}
+.note b{color:var(--ink-dim);font-weight:500}
+.note--lay{border-top-style:solid;border-top-color:var(--line-soft);color:var(--gold)}
+.note--lay b{color:var(--gold)}
+
+.nav{display:flex;gap:10px;margin-top:26px;align-items:center;flex-wrap:wrap}
+.btn{
+  cursor:pointer;font-family:inherit;font-size:.95rem;font-weight:400;
+  padding:14px 26px;min-height:50px;border:1px solid var(--gold);
+  background:var(--gold);color:#140F1E;letter-spacing:.03em;
+}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn[disabled]{opacity:.3;cursor:not-allowed}
+.btn--ghost{background:transparent;color:var(--ink-dim);border-color:var(--line)}
+.count{font-size:.8rem;color:var(--muted)}
+
+/* result */
+.pick{border-top:2px solid var(--gold);padding-block:20px 18px;border-bottom:1px solid var(--line-soft)}
+.pick .rank{font-size:.63rem;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.pick .rank .pin{color:var(--muted)}
+.pick h3{font-family:var(--font-display);font-size:1.95rem;font-weight:500;margin:7px 0 0;line-height:1}
+.pick .fam{font-size:.82rem;color:var(--gold);margin:5px 0 0}
+.pick .aura{font-family:var(--font-display);font-style:italic;font-size:1.05rem;color:var(--ink-dim);margin:9px 0 0}
+.pick .lines{margin:13px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pick .lines li{
+  list-style:none;font-size:.93rem;line-height:1.5;color:var(--ink);
+  padding-left:.95rem;position:relative;
+}
+.pick .lines li::before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;background:var(--gold)}
+.pick .ing{margin:13px 0 0;font-size:.82rem;color:var(--muted);line-height:1.5}
+.pick:nth-of-type(2),.pick:nth-of-type(3){border-top-color:var(--line)}
+
+.recap{background:var(--paper);padding:16px 17px;margin-top:22px;font-size:.88rem;color:var(--ink-dim)}
+.recap b{color:var(--ink);font-weight:500;display:block;margin-bottom:5px}
+
+details{margin-top:22px;border-top:1px solid var(--line)}
+summary{
+  cursor:pointer;padding:15px 0;font-size:.95rem;color:var(--ink);
+  list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--gold);font-size:1.2rem;line-height:1}
+details[open] summary::after{content:"\2013"}
+details .body{padding-bottom:18px}
+.obj{padding-block:12px;border-top:1px solid var(--line-soft)}
+.obj h4{font-family:var(--font-display);font-size:1.1rem;font-weight:500;margin:0;font-style:italic}
+.obj p{margin:5px 0 0;font-size:.87rem;color:var(--ink-dim);line-height:1.5}
+
+footer{margin-top:30px;padding-top:18px;border-top:1px solid var(--line-soft);font-size:.76rem;color:var(--muted)}
+footer p{margin:0}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Parfums de Marly</p>
+  <h1>Les Extraits<em>Guided consultation</em></h1>
+  <div class="steps" aria-hidden="true">
+    <span class="dot on" id="d0"></span><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span><span class="dot" id="d4"></span>
+  </div>
+</header>
+
+<!-- ============ INTRO ============ -->
+<figure class="hero" id="hero">
+  <img src="marly.jpg" alt="A French estate park at dusk">
+</figure>
+
+<section class="panel" id="p-intro">
+  <p class="qlabel">What this is</p>
+  <h2>A fragrance consultation built around Les Extraits</h2>
+  <p class="hint">Read this once. You will not need it again.</p>
+
+  <div class="intro-block">
+    <h3>How it works</h3>
+    <p>You ask the client three questions and tap what you hear. From those answers, this tool composes a selection of three Extraits out of the four, ranked, and gives you the reason to present each one. Ten to fifteen minutes, seated with your client.</p>
+  </div>
+
+  <div class="intro-block">
+    <h3>Why we do it this way</h3>
+    <p>An Extrait is not sold by explaining its price. It is sold by the attention that goes into it. A client who has been listened to for fifteen minutes is not holding the same object as a client who was handed a blotter across a counter.</p>
+    <p>And the attention is already in the bottle. Each Extrait took twice as long to develop as a standard Parfums de Marly creation, pushed and refined until nothing could be improved. Time itself is an ingredient. The consultation simply gives the client the same thing the Maison gave the fragrance.</p>
+  </div>
+
+  <div class="intro-block">
+    <h3>What you should have at the end</h3>
+    <p>A client who recognises themselves in the selection, who has held the bottle and seen the engraved cap, and who understands why these three and not the others. Whether they buy today or come back for it.</p>
+  </div>
+
+  <div class="cue cue--soft">
+    <span class="t">One rule</span>
+    <p>The device stays in your hands, never the client's. It carries the steps so that you can keep your eyes on them.</p>
+  </div>
+
+  <div class="nav">
+    <button class="btn" id="go-intro">Next: what you need</button>
+  </div>
+</section>
+
+<!-- ============ START ============ -->
+<section class="panel" id="p-start" hidden>
+  <p class="qlabel">Before you begin</p>
+  <h2>Set the table, then start when you are with the client</h2>
+  <p class="hint">Check everything below is in place. Press start once you are standing with the client, not before.</p>
+
+  <div class="cue cue--soft">
+    <span class="t">Everything below must be in place</span>
+    <ul>
+      <li>A tray within reach</li>
+      <li>Gloves in your pocket</li>
+      <li>Two blotters per fragrance</li>
+      <li>A seat for the client, and one for you &mdash; you sit with them</li>
+      <li>Still water, sparkling, coffee or tea if your location allows</li>
+      <li>A set of the four Extraits kept for consultations, never half-empty bottles</li>
+    </ul>
+  </div>
+
+  <div class="say">
+    <span class="t">Open with this</span>
+    <p>&laquo;&nbsp;I'd like us to take ten to fifteen minutes together, so I can introduce you to the most exclusive expression of Parfums de Marly &mdash; Les Extraits collection.&nbsp;&raquo;</p>
+    <p>&laquo;&nbsp;Please, take a seat. I'll guide you through a fragrance consultation, and by the end we'll have found together the Extrait that suits you best.&nbsp;&raquo;</p>
+    <p class="aside"><b>Why this way:</b> the client did not walk in looking for an Extrait. You are not serving a request &mdash; you are offering a discovery. The seat comes inside the offer, not before it.</p>
+  </div>
+
+  <div class="nav">
+    <button class="btn" id="go-start">Start the consultation</button>
+    <button class="btn btn--ghost" data-back="p-intro">Back</button>
+  </div>
+</section>
+
+<!-- ============ Q1 ============ -->
+<section class="panel" id="p-q1" hidden>
+  <p class="qlabel">Question 1 of 3</p>
+  <h2>&laquo;&nbsp;What do you know about Parfums de Marly?&nbsp;&raquo;</h2>
+  <p class="hint">Ask it, then tap what you heard. This sets how much you tell them next &mdash; it does not choose a fragrance.</p>
+  <div class="opts" id="o-q1"></div>
+  <div class="nav">
+    <button class="btn btn--ghost" data-back="p-start">Back</button>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="panel" id="p-story" hidden>
+  <p class="qlabel">Before moving on</p>
+  <h2>Give them this much, no more</h2>
+  <p class="hint">Say it in your own words. Stop when it lands &mdash; the rest of the house comes later, if they ask.</p>
+
+  <div class="say">
+    <span class="t">Say this</span>
+    <div id="story-main"></div>
+    <p class="aside" id="story-extra"></p>
+  </div>
+
+  <div class="nav">
+    <button class="btn" id="go-q2">Continue</button>
+    <button class="btn btn--ghost" data-back="p-q1">Back</button>
+  </div>
+</section>
+
+<!-- ============ Q2 ============ -->
+<section class="panel" id="p-q2" hidden>
+  <p class="qlabel">Question 2 of 3</p>
+  <h2>&laquo;&nbsp;What matters most to you in a fragrance?&nbsp;&raquo;</h2>
+
+  <div class="say">
+    <span class="t">Then say this</span>
+    <p>&laquo;&nbsp;Let me give you three different angles on that. I'll read them to you, and you stop me on anything that sounds like you &mdash; as many as you like, from any of the three. There is no wrong answer.&nbsp;&raquo;</p>
+    <p class="aside">Read every option aloud. The client picks across all three angles, not one angle and not one answer. The more they stop you, the sharper the selection.</p>
+  </div>
+
+  <div id="o-q2"></div>
+
+  <div class="nav">
+    <button class="btn" id="go-q3" disabled>Continue</button>
+    <span class="count" id="q2-count">Nothing selected yet</span>
+  </div>
+  <div class="nav">
+    <button class="btn btn--ghost" data-back="p-story">Back</button>
+  </div>
+</section>
+
+<!-- ============ Q3 ============ -->
+<section class="panel" id="p-q3" hidden>
+  <p class="qlabel">Question 3 of 3</p>
+  <h2>&laquo;&nbsp;And what is your fragrancing ritual?&nbsp;&raquo;</h2>
+  <p class="hint">Read the four aloud and let the client recognise themselves. The answer barely matters &mdash; what it opens does. Tapping one takes you to the composition.</p>
+  <div class="opts" id="o-q3"></div>
+  <div class="nav">
+    <button class="btn btn--ghost" data-back="p-q2">Back</button>
+  </div>
+</section>
+
+<!-- ============ RESULT ============ -->
+<section class="panel" id="p-result" hidden>
+  <p class="qlabel">Your composition</p>
+  <h2>Three of the four, in this order</h2>
+  <p class="summary" id="summary"></p>
+
+  <div class="cue">
+    <span class="t">Now stand up</span>
+    <p>&laquo;&nbsp;Thank you &mdash; that's very helpful. Let me compose a selection for you.&nbsp;&raquo; Leave, fetch the tray, place these three on it in this order, come back. Put the gloves on in front of the client, at the moment you pick up the bottle.</p>
+  </div>
+
+  <div id="picks"></div>
+
+  <div class="cue cue--soft">
+    <span class="t">Offer a blind discovery</span>
+    <p>&laquo;&nbsp;May I ask you to close your eyes? I'd like you to meet these without seeing the bottle or the colour of the juice &mdash; nothing to influence you but the scent itself.&nbsp;&raquo; Most clients say yes, and it changes the whole moment. If they'd rather not, carry on as normal.</p>
+  </div>
+
+  <div class="cue cue--soft">
+    <span class="t">While they smell</span>
+    <p>Two blotters &mdash; one for the client, one for you. Say nothing until they have reacted. Name the fragrance after, never before. Flat reaction? Move on: &laquo;&nbsp;I can see this one isn't speaking to you &mdash; let me show you the second.&nbsp;&raquo;</p>
+  </div>
+
+  <div class="cue cue--soft">
+    <span class="t">Then hand it over</span>
+    <p>Place the bottle in the client's hands &mdash; the weight, the glass, the engraving. Then turn it and show the cap: every Extrait carries its own guilloch&eacute; motif drawn from the Ch&acirc;teau de Marly.</p>
+  </div>
+
+  <div class="recap" id="advice"></div>
+
+  <details>
+    <summary>If an objection comes up</summary>
+    <div class="body">
+      <div class="obj">
+        <h4>&laquo;&nbsp;Why is it more expensive?&nbsp;&raquo;</h4>
+        <p>Bergamot, the most expensive citrus in perfumery. Geranium Bourbon, the rarest floral geranium there is. Patchouli Heart, a purified fraction. Damascena rose oil, costlier to produce than the absolute. Blackcurrant buds: 25&nbsp;kg for a single kilo. &laquo;&nbsp;You're not buying a fragrance. You're buying French excellence in a collector's object.&nbsp;&raquo;</p>
+      </div>
+      <div class="obj">
+        <h4>&laquo;&nbsp;It doesn't last on me.&nbsp;&raquo;</h4>
+        <p>Intensity varies from skin to skin &mdash; it isn't a quality issue. Always try it on skin, never only on a blotter. &laquo;&nbsp;After a while it's normal not to smell your own fragrance any more. Ask around you &mdash; the people near you still can.&nbsp;&raquo;</p>
+      </div>
+      <div class="obj">
+        <h4>&laquo;&nbsp;It doesn't smell like Marly.&nbsp;&raquo;</h4>
+        <p>By design. Les Extraits marks a further evolution of the House &mdash; a more expressive, more distinctive territory. &laquo;&nbsp;For those who want to stand out.&nbsp;&raquo;</p>
+      </div>
+      <div class="obj">
+        <h4>&laquo;&nbsp;Valero isn't really niche.&nbsp;&raquo;</h4>
+        <p>Intentional. In niche perfumery a luminous, clean Extrait is the rarest thing there is &mdash; that's the audacity. Underneath the clarity: Ambrox Super, Geranium Bourbon, an exceptional concentration of bergamot. &laquo;&nbsp;Concentration as refinement, not heaviness.&nbsp;&raquo;</p>
+      </div>
+      <div class="obj">
+        <h4>&laquo;&nbsp;The bottle looks plain.&nbsp;&raquo;</h4>
+        <p>Handcrafted in France. 50% recycled premium transparent glass, guilloch&eacute;-engraved cap in 75% recycled Zamak, reusable box with a silver guilloch&eacute; plaque. &laquo;&nbsp;Hold it. Feel the difference.&nbsp;&raquo;</p>
+      </div>
+    </div>
+  </details>
+
+  <div class="cue">
+    <span class="t">However it ends</span>
+    <p>Walk the client to the door. Thank them for the time they gave you, and tell them what they can come back for.</p>
+  </div>
+
+  <div class="nav">
+    <button class="btn btn--ghost" data-back="p-q3">Back</button>
+    <button class="btn" id="go-reset">New consultation</button>
+  </div>
+</section>
+
+<footer>
+  <p>Prototype v3 &mdash; built from Les Extraits Education Kit and the Onboarding Part 1 deck. Fragrance allocations and layering pairings to be validated with Fragrance Development.</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var F = {
+    crecy:  { name: "Crécy",  fam: "Woody Floral",   aura: "Sophisticated · Sensual · Modern",
+              ing: "Blackcurrant Buds Absolute · Damascena Rose Oil · Benzoin Resinoid",
+              lay: "Greenley — its green freshness lifts the opening before the rose settles in",
+              stock: "Chapter 4, the newest creation in the collection — a woody floral that reclaims 18th-century masculine codes." },
+    carios: { name: "Carios", fam: "Fougère Ambery", aura: "Radiant · Magnetic · Determined",
+              ing: "Red Mandarin Oil · Red Thyme Oil · Roasted Tonka Bean",
+              lay: "Galloway — citrus on citrus, to stretch the radiance through the day",
+              stock: "A fougère rebuilt from the inside — red mandarin, red thyme and roasted tonka in place of the classic structure." },
+    eragon: { name: "Eragon", fam: "Ambery Spicy",   aura: "Contrasted · Warm · Luminous",
+              ing: "Patchouli Heart Iron Free · Cinnamon Oil · Vanilla Bean Accord",
+              lay: "Althaïr — vanilla on vanilla, which deepens the warmth rather than sweetening it",
+              stock: "Built on contrast — purified patchouli against vivid cinnamon, bound by a vanilla bean accord." },
+    valero: { name: "Valero", fam: "Fougère Woody",  aura: "Pure · Noble · Timeless",
+              ing: "Geranium Bourbon · Lavender Oil · Ambrox Super",
+              lay: "Layton — they share the lavender, and Layton adds the fruit Valero deliberately leaves out",
+              stock: "The most concentrated of the four and the most airy — here concentration means clarity, not weight." }
+  };
+
+  var Q1 = [
+    { id: "none", label: "Nothing at all — the client is discovering the house",
+      main: [
+        "« Parfums de Marly is a French Haute Parfumerie house. Haute Parfumerie is to fragrance what haute couture is to clothing — rare materials, excellence, no compromise. »",
+        "« The house takes its name from the Château de Marly, built by Louis XIV for his friends. As he put it himself: I made Versailles for my court, and Marly for my friends. »",
+        "« Marly was where the rules of Versailles were set aside — the one place where you were allowed to be yourself. »"
+      ],
+      extra: "If there is interest: and at Marly, fragrance was part of that freedom. This is also the century when perfume stopped being a raw material and became a composition — something built, signed, with a point of view. That is exactly what the Maison inherits." },
+
+    { id: "some", label: "A little — the client has heard of it, or knows one fragrance",
+      main: [
+        "« The house was founded in 2009 by Julien Sprecher — one man, one point of view, and he still signs every formula himself. »",
+        "« He created it to break away from what was expected. Niche perfumery had settled into clear glass, no colour, no gender, no story. He went the other way: collections for women and for men, opulence, colour, history. »"
+      ],
+      extra: "If there is interest: most houses build one signature and repeat it. This one does the opposite, deliberately — which is why two Parfums de Marly fragrances can smell nothing alike." },
+
+    { id: "client", label: "The client already owns fragrances from Parfums de Marly",
+      main: [
+        "« You already know the house. What you may not know is what happens when every limit is removed — on time, on cost, on convention. That is Les Extraits: four creations, four characters, one standard. »"
+      ],
+      extra: "If there is interest: an Extrait here is not about being stronger. Concentration is a promise of intimacy, not of volume — it sits closer to the skin and evolves with it. That is the opposite of what the market means by Extrait." }
+  ];
+
+  var Q3 = [
+    { id: "one", label: "« One spray, once a day »",
+      tip: "Tell them where: pulse points for warmth, hair and fabric for longevity. And the rule they will remember — fabric keeps the fragrance exactly as it was composed; skin makes it theirs." },
+    { id: "many", label: "« Several times a day — I reapply »",
+      tip: "At this concentration, less is more — the vanilla and resin bases are built to stay. Suggest one spray on skin, judged at the end of the day before reapplying. And rather than reapplying the same fragrance, offer the layering pairing shown under each Extrait." },
+    { id: "layer", label: "« I layer, or I wear several fragrances »",
+      tip: "Your opening. Bergamot is the Marly signature running through almost the whole portfolio — it is what lets the fragrances sit together, and in Les Extraits it is used at exceptional concentration. A pairing is proposed under each Extrait below." },
+    { id: "unsure", label: "« I'm not really sure how to wear it »",
+      tip: "This is your opening. Explain the choice: on fabric the fragrance stays as the perfumer composed it; on skin it adapts and becomes recognisably theirs. Most people have never been told the difference." }
+  ];
+
+  var PILLARS = [
+    { id: "occasion", title: "« …it's what decides which fragrance I reach for »",
+      ask: "Read these three aloud." },
+    { id: "expect",   title: "« …it's what the fragrance says about me »",
+      ask: "Read these six aloud." },
+    { id: "scent",    title: "« …it's the scent itself »",
+      ask: "Read these six aloud." }
+  ];
+
+  var A = [
+    { p:"occasion", s:"« I wear the same fragrance every day, whatever the occasion »", e:"wears one fragrance, always",
+      r:["valero","crecy","carios"], f:"valero",
+      l:"Pure, noble, timeless — the one that can be worn every day for years without ever becoming ordinary." },
+    { p:"occasion", s:"« I choose depending on the occasion »", e:"chooses by the occasion",
+      r:["crecy","eragon","valero"], f:"crecy",
+      l:"A woody floral that settles into benzoin — warm and enveloping, the one you reach for when the evening matters." },
+    { p:"occasion", s:"« I choose depending on my mood that day »", e:"chooses by mood",
+      r:["eragon","carios","crecy"], f:"eragon",
+      l:"Built on contrast — dark and luminous at once. It reads differently depending on the day and on the skin." },
+
+    { p:"expect", s:"« I want it to project and leave a trail »", e:"wants projection and a trail",
+      r:["eragon","carios","crecy"], f:"eragon",
+      l:"Purified patchouli against vivid cinnamon. The most diffusive of the four." },
+    { p:"expect", s:"« I want the fragrance to last as long as possible »", e:"wants it to last",
+      r:["eragon","crecy","carios"], f:"eragon",
+      l:"The vanilla bean accord is the matrix: it doesn't announce itself, it makes everything else stay." },
+    { p:"expect", s:"« I want something nobody else is wearing »", e:"wants something nobody else wears",
+      r:["crecy","eragon","valero"], f:"crecy",
+      l:"Blackcurrant buds in majeur, paired with rose and a powdery accord, in a masculine fragrance. It has not been done." },
+    { p:"expect", s:"« I like a fragrance with a story behind it »", e:"likes a story behind it",
+      r:["crecy","valero","eragon"], f:"crecy",
+      l:"Twenty-five kilos of buds for one kilo of absolute, and a cap engraved after the Cabinet à la Poudre, where the King prepared himself before receiving his most important guests." },
+    { p:"expect", s:"« I want it to get me compliments »", e:"wants compliments",
+      r:["carios","crecy","eragon"], f:"carios",
+      l:"Red mandarin is joyful and immediate — people smile before they realise what they are smelling." },
+    { p:"expect", s:"« I want something new, something people talk about »", e:"wants something new",
+      r:["crecy","carios","eragon"], f:"crecy",
+      l:"Crécy is Chapter 4 — the newest creation in the Maison's most ambitious collection." },
+
+    { p:"scent", s:"« I like clean scents — out of the shower »", e:"clean, out of the shower",
+      r:["valero","carios","crecy"], f:"valero",
+      l:"Lavender harvested above a thousand metres. At this concentration, a luminous Extrait is the rarest thing in niche." },
+    { p:"scent", s:"« I like intense, dark, contrasted scents »", e:"intense, dark, contrasted",
+      r:["eragon","crecy","carios"], f:"eragon",
+      l:"Patchouli stripped of everything heavy, set against electric cinnamon — a tension that shouldn't work and does." },
+    { p:"scent", s:"« I like warm, sweet, gourmand scents »", e:"warm, sweet, gourmand",
+      r:["carios","eragon","crecy"], f:"carios",
+      l:"Tonka roasted on purpose — creamy, almost coffee. It builds on skin rather than fading." },
+    { p:"scent", s:"« I like spicy scents »", e:"spicy",
+      r:["eragon","carios","crecy"], f:"eragon",
+      l:"Few houses dare make cinnamon a signature note. Here it is the heat running under the patchouli." },
+    { p:"scent", s:"« I like woody scents »", e:"woody",
+      r:["crecy","valero","eragon"], f:"crecy",
+      l:"Woods and benzoin close Crécy in a base that is warm and enveloping rather than dry." },
+    { p:"scent", s:"« I like floral scents »", e:"floral",
+      r:["crecy","valero","carios"], f:"crecy",
+      l:"Damascena rose with powdery nuances — exactly what men wore at Versailles as a mark of rank." }
+  ];
+
+  var state = { q1: null, q2: [], q3: null };
+  /* panel id -> progress dot */
+  var PANELS = [
+    { id: "p-intro",  dot: 0 },
+    { id: "p-start",  dot: 0 },
+    { id: "p-q1",     dot: 1 },
+    { id: "p-story",  dot: 1 },
+    { id: "p-q2",     dot: 2 },
+    { id: "p-q3",     dot: 3 },
+    { id: "p-result", dot: 4 }
+  ];
+
+  function $(id) { return document.getElementById(id); }
+
+  function show(id) {
+    var dot = 0;
+    PANELS.forEach(function (p) {
+      $(p.id).hidden = (p.id !== id);
+      if (p.id === id) dot = p.dot;
+    });
+    $("hero").hidden = (id !== "p-intro");
+    [0, 1, 2, 3, 4].forEach(function (n) {
+      $("d" + n).className = "dot" + (n < dot ? " done" : n === dot ? " on" : "");
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function makeOpt(label) {
+    var b = document.createElement("button");
+    b.className = "opt";
+    b.type = "button";
+    b.setAttribute("aria-pressed", "false");
+    var m = document.createElement("span");
+    m.className = "mark";
+    m.textContent = "●";
+    b.appendChild(m);
+    b.appendChild(document.createTextNode(label));
+    return b;
+  }
+
+  /* ---- Q1 ---- */
+  Q1.forEach(function (o) {
+    var b = makeOpt(o.label);
+    b.addEventListener("click", function () {
+      state.q1 = o;
+      var host = $("story-main");
+      host.textContent = "";
+      o.main.forEach(function (t) {
+        var p = document.createElement("p");
+        p.textContent = t;
+        host.appendChild(p);
+      });
+      $("story-extra").textContent = o.extra;
+      show("p-story");
+    });
+    $("o-q1").appendChild(b);
+  });
+
+  /* ---- Q2 ---- */
+  PILLARS.forEach(function (p) {
+    var g = document.createElement("div");
+    g.className = "group";
+    var h = document.createElement("h3");
+    h.textContent = p.title;
+    var ask = document.createElement("p");
+    ask.className = "ask";
+    ask.textContent = p.ask;
+    var box = document.createElement("div");
+    box.className = "opts";
+    g.appendChild(h); g.appendChild(ask); g.appendChild(box);
+
+    A.filter(function (a) { return a.p === p.id; }).forEach(function (a) {
+      var b = makeOpt(a.s);
+      b.addEventListener("click", function () {
+        var i = state.q2.indexOf(a);
+        if (i === -1) { state.q2.push(a); b.setAttribute("aria-pressed", "true"); }
+        else { state.q2.splice(i, 1); b.setAttribute("aria-pressed", "false"); }
+        updateCount();
+      });
+      box.appendChild(b);
+    });
+    $("o-q2").appendChild(g);
+  });
+
+  function updateCount() {
+    var n = state.q2.length;
+    $("go-q3").disabled = n === 0;
+    $("q2-count").textContent = n === 0 ? "Nothing selected yet"
+      : n === 1 ? "1 answer selected" : n + " answers selected";
+  }
+
+  /* ---- Q3 ---- */
+  Q3.forEach(function (o) {
+    var b = makeOpt(o.label);
+    b.addEventListener("click", function () { state.q3 = o; compose(); show("p-result"); });
+    $("o-q3").appendChild(b);
+  });
+
+  /* ---- engine ---- */
+  function compose() {
+    var score = { crecy: 0, carios: 0, eragon: 0, valero: 0 };
+    state.q2.forEach(function (a) {
+      score[a.r[0]] += 3; score[a.r[1]] += 2; score[a.r[2]] += 1;
+    });
+
+    var order = ["crecy", "carios", "eragon", "valero"];
+    var ranked = order.slice().sort(function (x, y) {
+      return score[y] - score[x] || order.indexOf(x) - order.indexOf(y);
+    });
+
+    var trio = ranked.slice(0, 3);
+    var pinned = false;
+    if (trio.indexOf("crecy") === -1) { trio[2] = "crecy"; pinned = true; }
+
+    var host = $("picks");
+    host.textContent = "";
+    var used = {};
+
+    trio.forEach(function (key, i) {
+      var f = F[key];
+      var lines = state.q2.filter(function (a) { return a.f === key; })
+                          .map(function (a) { return a.l; });
+      if (lines.length === 0) lines = [f.stock];
+
+      var el = document.createElement("div");
+      el.className = "pick";
+
+      var rank = document.createElement("p");
+      rank.className = "rank";
+      rank.textContent = (i === 0 ? "Open with" : "Then");
+      if (key === "crecy" && pinned) {
+        var pin = document.createElement("span");
+        pin.className = "pin";
+        pin.textContent = "  ·  always in the selection";
+        rank.appendChild(pin);
+      }
+
+      var h = document.createElement("h3"); h.textContent = f.name;
+      var fam = document.createElement("p"); fam.className = "fam"; fam.textContent = f.fam;
+      var aura = document.createElement("p"); aura.className = "aura"; aura.textContent = f.aura;
+
+      var ul = document.createElement("ul"); ul.className = "lines";
+      lines.forEach(function (t) {
+        var li = document.createElement("li"); li.textContent = t; ul.appendChild(li);
+      });
+
+      var ing = document.createElement("p"); ing.className = "ing"; ing.textContent = f.ing;
+
+      el.appendChild(rank); el.appendChild(h); el.appendChild(fam);
+      el.appendChild(aura); el.appendChild(ul); el.appendChild(ing);
+
+      /* advisor's own note — never part of the speech */
+      var echoes = state.q2.filter(function (a) { return a.f === key; })
+                           .map(function (a) { return a.e; });
+      /* a secondary reason only counts if no earlier fragrance already used it */
+      function unused(rank) {
+        return state.q2.filter(function (a) { return a.r[rank] === key && !used[a.e]; })
+                       .map(function (a) { return a.e; });
+      }
+      if (echoes.length === 0) echoes = unused(1);
+      if (echoes.length === 0) echoes = unused(2);
+
+      echoes = echoes.slice(0, 2);
+      echoes.forEach(function (e) { used[e] = true; });
+
+      if (echoes.length) {
+        var note = document.createElement("p");
+        note.className = "note";
+        var nb = document.createElement("b");
+        nb.textContent = "Why this one — ";
+        note.appendChild(nb);
+        note.appendChild(document.createTextNode(echoes.join("  ·  ")));
+        el.appendChild(note);
+      }
+
+      /* layering, only when the ritual calls for it */
+      if (state.q3 && (state.q3.id === "layer" || state.q3.id === "many") && f.lay) {
+        var lay = document.createElement("p");
+        lay.className = "note note--lay";
+        var lb = document.createElement("b");
+        lb.textContent = "Could be layered with — ";
+        lay.appendChild(lb);
+        lay.appendChild(document.createTextNode(f.lay));
+        el.appendChild(lay);
+      }
+
+      host.appendChild(el);
+    });
+
+    $("summary").textContent = trio.map(function (k, n) {
+      return (n + 1) + ". " + F[k].name;
+    }).join("      ");
+
+    var adv = $("advice");
+    adv.textContent = "";
+    var b1 = document.createElement("b");
+    b1.textContent = "Advice to give — " + (state.q3 ? state.q3.label : "");
+    var p1 = document.createElement("span");
+    p1.textContent = state.q3 ? state.q3.tip : "";
+    adv.appendChild(b1); adv.appendChild(p1);
+  }
+
+  /* ---- nav ---- */
+  $("go-intro").addEventListener("click", function () { show("p-start"); });
+  $("go-start").addEventListener("click", function () { show("p-q1"); });
+  $("go-q2").addEventListener("click", function () { show("p-q2"); });
+  $("go-q3").addEventListener("click", function () { show("p-q3"); });
+  $("go-reset").addEventListener("click", function () {
+    state = { q1: null, q2: [], q3: null };
+    Array.prototype.forEach.call(document.querySelectorAll('.opt[aria-pressed="true"]'), function (b) {
+      b.setAttribute("aria-pressed", "false");
+    });
+    updateCount();
+    show("p-intro");
+  });
+  Array.prototype.forEach.call(document.querySelectorAll("[data-back]"), function (b) {
+    b.addEventListener("click", function () { show(b.getAttribute("data-back")); });
+  });
+
+  updateCount();
+})();
+</script>
+
+</body>
+</html>
