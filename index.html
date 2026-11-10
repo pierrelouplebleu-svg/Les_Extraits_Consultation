@@ -75,16 +75,16 @@ header h1 em{
 .dot.on{background:var(--gold)}
 .dot.done{background:var(--ink-dim)}
 
-/* single opening visual — Château de Marly, collection level */
-.hero{position:relative;margin-top:22px;overflow:hidden}
-.hero img{display:block;width:100%;height:188px;object-fit:cover;object-position:50% 58%}
+/* single opening visual — full-bleed band, collection level */
+.hero{
+  position:relative;margin-top:20px;overflow:hidden;
+  margin-left:calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  margin-right:calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+}
+.hero img{display:block;width:100%;height:224px;object-fit:cover;object-position:50% 56%}
 .hero::after{
   content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,11,22,.15) 0%,rgba(14,11,22,.55) 62%,var(--bg) 100%);
-}
-.hero figcaption{
-  position:absolute;left:14px;bottom:12px;z-index:1;
-  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
 }
 
 .panel{padding-block:26px}
