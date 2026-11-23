@@ -44,10 +44,10 @@ img{max-width:100%}
 .count{font-family:var(--display);font-weight:500;font-size:24px;line-height:1;font-variant-numeric:tabular-nums}
 .count span{font-family:var(--body);font-size:13px;color:var(--muted);margin-left:4px}
 .icon-btn{width:40px;height:40px;border-radius:20px;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center}
-.icon-btn svg{width:18px;height:18px}
+.icon-btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 main{max-width:560px;margin:0 auto;padding:0 max(20px,env(safe-area-inset-left,0px)) calc(40px + env(safe-area-inset-bottom,0px))}
-.step{min-height:calc(100svh - 66px);padding:28px 0 32px;display:flex;flex-direction:column;scroll-margin-top:66px}
+.step{min-height:calc(100svh - var(--hh,66px));padding:28px 0 32px;display:flex;flex-direction:column}
 .step.past{min-height:0;opacity:.45;transition:opacity .3s}
 .step.past:hover,.step.past:focus-within{opacity:.8}
 .num{display:flex;align-items:baseline;gap:8px}
@@ -122,6 +122,13 @@ h2{font-size:40px;line-height:1.08;margin-top:18px}
 .ritual svg{flex:0 0 26px;width:26px;height:26px;stroke:var(--ink);fill:none;stroke-width:1.4}
 .ritual b{font-weight:500}
 
+.story-btn{margin-top:18px;width:100%;display:flex;align-items:center;gap:14px;text-align:left;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);padding:12px 14px;min-height:64px}
+.story-btn .ic{flex:0 0 42px;width:42px;height:42px;border-radius:21px;background:var(--surface);display:grid;place-items:center}
+.story-btn .ic svg,.story-btn .go-ic{width:20px;height:20px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.story-btn .tx{flex:1;min-width:0}
+.story-btn .l{display:block;font-family:var(--display);font-weight:500;font-size:24px;line-height:1.1}
+.story-btn .s{display:block;font-size:14px;color:var(--muted)}
+.sheet-top{display:flex;margin-bottom:18px}
 /* sheet */
 .sheet{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.2,.8,.2,1);visibility:hidden}
 .sheet.open{transform:none;visibility:visible}
@@ -196,7 +203,7 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 
 let D=null;
 const S={gender:null,sel:{},reached:0};
-const STEPS=['welcome','Q1','house','Q2','Q3','Q4','Q5','result'];
+const STEPS=['welcome','Q1','Q2','Q3','Q4','Q5','result'];
 const MULTI={Q2:2,Q3:2};
 const QNUM={Q1:1,Q2:2,Q3:3,Q4:4,Q5:5};
 
@@ -253,12 +260,16 @@ function cueHTML(t){
   const parts=String(t).split(' · '), head=parts[0], rest=parts.slice(1).join(' · ');
   return `<li class="cue"><span class="h">${esc(head)}</span>${rest?`<span class="r">${esc(rest)}</span>`:''}</li>`;
 }
-function house(){
-  const lvl=chosen('Q1')[0]==='K2'?'K2':'K1', cues=D.house[lvl]||[];
-  return `<div class="eyebrow">${lvl==='K2'?'Something new':'The house'}</div>
+function houseLevel(){return chosen('Q1')[0]==='K2'?'K2':'K1'}
+function openHouse(){
+  const lvl=houseLevel(), cues=D.house[lvl]||[]; lastFocus=document.activeElement;
+  sheetIn.innerHTML=`<div class="sheet-top"><button type="button" class="icon-btn" data-close aria-label="Back to the selection">${svg('back')}</button></div>
+    <div class="eyebrow">${lvl==='K2'?'Already knows the house':'Discovering the house'}</div>
     <h2>${lvl==='K2'?'Something new about the house':'Parfums de Marly'}</h2>
     <ul class="cues">${cues.map(cueHTML).join('')}</ul>
-    <div class="go"><button type="button" class="btn" data-next="house">Next question ${svg('arrow')}</button></div>`;
+    <div class="go"><button type="button" class="btn ghost" data-close>Back to the selection</button></div>`;
+  sheet.classList.add('open'); sheet.scrollTop=0; document.body.style.overflow='hidden';
+  setTimeout(()=>sheetIn.querySelector('[data-close]').focus(),50);
 }
 const TITLE={W1:'Your signature',W2:'One for day, one for night',W3:'A wardrobe for every mood'};
 function cardHTML(p,i,big){
@@ -273,6 +284,7 @@ function result(){
   if(r==='R3'){ const p=t.find(x=>x.ritual&&x.ritual!=='—'); rit=`<div class="ritual">${svg('R3')}<div><b>Full ritual</b> · ${p?esc(p.name)+': '+esc(p.ritual):'suggest the larger size'}</div></div>`; }
   return `<div class="eyebrow">The selection</div>
     <h1 class="sel-title">${esc(TITLE[w]||'Your selection')}</h1>
+    <button type="button" class="story-btn" data-house><span class="ic">${svg('house')}</span><span class="tx"><span class="l">The House</span><span class="s">${houseLevel()==='K2'?'Something new to share':'The story of the house'}</span></span>${svg('next','class="go-ic"')}</button>
     ${t[0]?cardHTML(t[0],0,true):''}
     <div class="duo">${t.slice(1).map((p,i)=>cardHTML(p,i+1,false)).join('')}</div>
     ${rit}
@@ -280,7 +292,6 @@ function result(){
 }
 function render(step){
   if(step==='welcome') return welcome();
-  if(step==='house') return house();
   if(step==='result') return result();
   return qSection(step);
 }
@@ -301,7 +312,8 @@ function advance(from){
   const i=STEPS.indexOf(from); if(i<S.reached) return;
   S.reached=i+1; refresh();
   const el=document.getElementById('st-'+STEPS[S.reached]);
-  requestAnimationFrame(()=>el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'}));
+  requestAnimationFrame(()=>{ const top=el.getBoundingClientRect().top+window.scrollY-headerH();
+    window.scrollTo({top:Math.max(0,top),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); });
 }
 function restart(){ S.gender=null; S.sel={}; S.reached=0; closeSheet(); flow.innerHTML=''; refresh(); window.scrollTo({top:0}); }
 
@@ -344,11 +356,15 @@ document.addEventListener('click',e=>{
   else if(b.dataset.q){ pick(b.dataset.q,b.dataset.id); }
   else if(b.dataset.next){ advance(b.dataset.next); }
   else if(b.dataset.open){ openSheet(b.dataset.open,b.dataset.rank); }
+  else if(b.hasAttribute('data-house')){ openHouse(); }
   else if(b.hasAttribute('data-close')){ closeSheet(); }
   else if(b.hasAttribute('data-restart')||b.id==='restart'){ restart(); }
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&sheet.classList.contains('open')) closeSheet(); });
 
+function headerH(){return document.querySelector('.top').getBoundingClientRect().height}
+function setHH(){document.documentElement.style.setProperty('--hh',headerH()+'px')}
+setHH(); addEventListener('resize',setHH);
 fetch('data.json').then(r=>r.json()).then(d=>{D=d; refresh();}).catch(()=>{flow.innerHTML='<section class="step"><h2>The consultation could not load.</h2><p class="hint">Check your connection and reload the page.</p></section>';});
 </script>
 </body>
