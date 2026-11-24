@@ -132,6 +132,10 @@ h2{font-size:40px;line-height:1.08;margin-top:18px}
 .ritual svg{flex:0 0 26px;width:26px;height:26px;stroke:var(--ink);fill:none;stroke-width:1.4}
 .ritual b{font-weight:500}
 
+.quote{font-family:var(--display);font-style:italic;font-size:20px;line-height:1.4;margin-top:20px;border-left:2px solid var(--ink);padding-left:14px}
+.quote small{display:block;font-style:normal;font-size:12px;letter-spacing:.06em;color:var(--muted);margin-top:6px}
+.cl-sec{margin-top:24px}
+.cl-sec p{margin:8px 0 0;font-size:16px;line-height:1.6}
 .take{margin-top:28px;border:1px solid var(--line);border-radius:var(--r);padding:22px 18px 18px;text-align:center}
 .take .qr{width:168px;height:168px;margin:14px auto 10px}
 .take .qr svg{width:100%;height:100%;display:block}
@@ -398,8 +402,20 @@ function whyLines(p){
 }
 const sheet=document.getElementById('sheet'), sheetIn=document.getElementById('sheetIn');
 let lastFocus=null;
+function clientSheet(p,rank){
+  return `<div class="hero"><button type="button" class="icon-btn" data-close aria-label="Back to the selection">${svg('back')}</button><span class="n">${rank}</span><img src="${esc(p.img)}" alt="${esc(p.name)} bottle"></div>
+    <div class="eyebrow fam">${esc(p.family)} · ${esc(p.collection)}</div>
+    <div class="nm">${esc(p.name)}</div>
+    <div class="chips">${String(p.words||'').split('·').map(w=>w.trim()).filter(Boolean).map(w=>`<span>${esc(w)}</span>`).join('')}</div>
+    ${p.insp?`<div class="cl-sec"><div class="eyebrow">${esc(p.client_label||'The inspiration')}</div><p>${esc(p.insp)}</p></div>`:''}
+    ${p.quote?`<div class="quote">“${esc(p.quote.charAt(0).toUpperCase()+p.quote.slice(1))}.”<small>Julien Sprecher, founder</small></div>`:''}
+    ${p.comp?`<div class="cl-sec"><div class="eyebrow">The composition</div><p>${esc(p.comp)}</p></div>`:''}
+    <dl class="pyr"><dt>Top</dt><dd>${esc(p.top)}</dd><dt>Heart</dt><dd>${esc(p.heart)}</dd><dt>Base</dt><dd>${esc(p.base)}</dd></dl>
+    <div class="client-foot">Selected with you at Parfums de Marly</div>`;
+}
 function openSheet(id,rank){
   const p=D.perfumes.find(x=>x.id===id); lastFocus=document.activeElement;
+  if(document.body.classList.contains('client')){ sheetIn.innerHTML=clientSheet(p,rank); sheet.classList.add('open'); sheet.scrollTop=0; document.body.style.overflow='hidden'; setTimeout(()=>sheetIn.querySelector('[data-close]').focus(),50); return; }
   const knows=chosen('Q1')[0]==='K2', story=knows?p.lvl2:p.lvl1;
   sheetIn.innerHTML=`<div class="hero"><button type="button" class="icon-btn" data-close aria-label="Back to the selection">${svg('back')}</button><span class="n">${rank}</span><img src="${esc(p.img)}" alt="${esc(p.name)} bottle"></div>
     <div class="eyebrow fam">${esc(p.family)}${p.line==='Extrait'?' · Les Extraits':''}</div>
